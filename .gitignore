@@ -1,0 +1,22 @@
+# Local Databases
+*.sqlite3
+
+# Temp files
+*~
+
+# Python build and test artifacts
+*.pyc
+__pycache__
+.mypy_cache
+.coverage
+/dist/
+/test/dist/
+/*.egg-info
+/*.egg
+
+# Archives
+*.zip
+*.tar
+
+#IDE Specific
+/.idea/
