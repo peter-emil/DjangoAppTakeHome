@@ -77,3 +77,9 @@ class DocumentRetrieve(generics.RetrieveAPIView):
 
     def get_object(self):
         return DocumentEntry.objects.get(name=self.kwargs['name'])
+
+    @swagger_auto_schema(
+        operation_summary="Get Document by name"
+    )
+    def get(self, request, *args, **kwargs):
+        return super(DocumentRetrieve, self).get(request, *args, **kwargs)
