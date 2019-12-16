@@ -14,5 +14,7 @@ urlpatterns = [  # pylint: disable=invalid-name
     path('assets/', include([
         path('metadata/', assets.views.MetadataListCreate.as_view()),
         path('metadata/<name>/', assets.views.MetadataRetrieve.as_view()),
+        path('documents/', assets.views.DocumentListCreate.as_view()),
+        path('documents/<name>', assets.views.DocumentRetrieve.as_view()),
     ])),
 ]

@@ -1,6 +1,6 @@
 from rest_framework import generics, exceptions
-from .serializers import MetadataSerializer
-from .models import MetadataEntry
+from .serializers import MetadataSerializer, DocumentSerializer
+from .models import MetadataEntry, DocumentEntry
 
 
 class MetadataListCreate(generics.ListCreateAPIView):
@@ -10,6 +10,7 @@ class MetadataListCreate(generics.ListCreateAPIView):
     def create(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             raise exceptions.NotAuthenticated
+        request.data['owner'] = request.user.pk
         return super().create(request, *args, **kwargs)
 
 
@@ -18,3 +19,21 @@ class MetadataRetrieve(generics.RetrieveAPIView):
 
     def get_object(self):
         return MetadataEntry.objects.get(name=self.kwargs['name'])
+
+
+class DocumentListCreate(generics.ListCreateAPIView):
+    serializer_class = DocumentSerializer
+    queryset = DocumentEntry.objects.all()
+
+    def create(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            raise exceptions.NotAuthenticated
+        request.data['owner'] = request.user.pk
+        return super().create(request, *args, **kwargs)
+
+
+class DocumentRetrieve(generics.RetrieveAPIView):
+    serializer_class = DocumentSerializer
+
+    def get_object(self):
+        return DocumentEntry.objects.get(name=self.kwargs['name'])
