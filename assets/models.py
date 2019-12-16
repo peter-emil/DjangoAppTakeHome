@@ -6,9 +6,11 @@ class MetadataEntry(models.Model):
     name = models.CharField(max_length=60, unique=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     string = models.TextField()
+    objects = models.Manager()
 
 
 class DocumentEntry(models.Model):
     name = models.CharField(max_length=60, unique=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     file = models.URLField()
+    objects = models.Manager()

@@ -11,7 +11,7 @@ class MetadataListCreate(generics.ListCreateAPIView):
         if not request.user.is_authenticated:
             raise exceptions.NotAuthenticated
         request.data['owner'] = request.user.pk
-        return super().create(request, *args, **kwargs)
+        return super().create(request, *args, **kwargs)  # pylint:disable=no-member
 
 
 class MetadataRetrieve(generics.RetrieveAPIView):
@@ -29,7 +29,7 @@ class DocumentListCreate(generics.ListCreateAPIView):
         if not request.user.is_authenticated:
             raise exceptions.NotAuthenticated
         request.data['owner'] = request.user.pk
-        return super().create(request, *args, **kwargs)
+        return super().create(request, *args, **kwargs)  # pylint:disable=no-member
 
 
 class DocumentRetrieve(generics.RetrieveAPIView):

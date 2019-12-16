@@ -23,7 +23,11 @@ vulture:
 	@echo "testing with vulture"
 	@${discover-dead-code-checker} | xargs poetry run vulture
 
-test: pylint flake8 mypy
+servertests:
+	@rm project/db.sqlite3 | echo no old test db
+	@poetry run python manage.py test --settings project.settings.testing
+
+test: pylint flake8 mypy servertests
 	@echo All tests successful
 
 migrate:

@@ -21,7 +21,7 @@ def credentials_in_request_data(data):
 
 
 class CreateAccountView(views.APIView):
-    def post(self, request, *args, **kwargs):
+    def post(self, request):  # pylint:disable=no-self-use
         data = request.data
         err = credentials_in_request_data(data)
         if err is not None:
@@ -54,7 +54,7 @@ class LoginView(views.APIView):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (BasicAuthentication,)
 
-    def post(self, request, *args, **kwargs):
+    def post(self, request):  # pylint:disable=no-self-use
         user = request.user
         refresh_token = RefreshToken.for_user(user=user)
         response = {
