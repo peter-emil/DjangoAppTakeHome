@@ -1,8 +1,9 @@
 # pylint: disable=wildcard-import,unused-wildcard-import
-from .base import *  # noqa: F403, F401
+import os
+from .base import *  # noqa: F403,F401
 
 
-INSTALLED_APPS.insert(6, 'storages')
+INSTALLED_APPS.insert(6, 'storages')  # noqa: F405
 
 DATABASES = {
     'default': {
@@ -29,5 +30,5 @@ STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 DEFAULT_FILE_STORAGE = 'couponwebsite.storage_backends.MediaStorage'
 
-allowed_hosts = os.environ["ALLOWED_HOSTS"].split(";")
+allowed_hosts = os.environ["ALLOWED_HOSTS"].split(";")  # pylint:disable=invalid-name
 ALLOWED_HOSTS = allowed_hosts

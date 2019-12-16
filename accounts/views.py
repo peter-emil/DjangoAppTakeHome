@@ -1,9 +1,12 @@
+# pylint:disable=no-self-use
 from http import HTTPStatus
 from rest_framework import views
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authentication import BasicAuthentication
 from django.contrib.auth.models import User
 from rest_framework_simplejwt.tokens import RefreshToken
+from drf_yasg.utils import swagger_auto_schema, no_body
+from drf_yasg import openapi
 
 
 def credentials_in_request_data(data):
@@ -21,7 +24,36 @@ def credentials_in_request_data(data):
 
 
 class CreateAccountView(views.APIView):
-    def post(self, request):  # pylint:disable=no-self-use
+    @swagger_auto_schema(
+        operation_summary="Create New Account",
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                "email": openapi.Parameter('name', openapi.IN_BODY, type=openapi.TYPE_STRING),
+                "password": openapi.Parameter('password', openapi.IN_BODY, type=openapi.TYPE_STRING)
+            }
+        ),
+        responses={
+            "201": openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "access": openapi.Parameter(
+                        'access',
+                        openapi.IN_BODY,
+                        type=openapi.TYPE_STRING
+                    ),
+                    "refresh": openapi.Parameter(
+                        'refresh',
+                        openapi.IN_BODY,
+                        type=openapi.TYPE_STRING
+                    )
+                }
+            ),
+            "400": "Bad Request",
+            "401": "Unauthorized"
+        }
+    )
+    def post(self, request):
         data = request.data
         err = credentials_in_request_data(data)
         if err is not None:
@@ -54,7 +86,29 @@ class LoginView(views.APIView):
     permission_classes = (IsAuthenticated,)
     authentication_classes = (BasicAuthentication,)
 
-    def post(self, request):  # pylint:disable=no-self-use
+    @swagger_auto_schema(
+        operation_summary="Login Endpoint",
+        request_body=no_body,
+        responses={
+            "200": openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    "access": openapi.Parameter(
+                        'access',
+                        openapi.IN_BODY,
+                        type=openapi.TYPE_STRING
+                    ),
+                    "refresh": openapi.Parameter(
+                        'refresh',
+                        openapi.IN_BODY,
+                        type=openapi.TYPE_STRING
+                    )
+                }
+            ),
+            "401": "Unauthorized"
+        }
+    )
+    def post(self, request):
         user = request.user
         refresh_token = RefreshToken.for_user(user=user)
         response = {
