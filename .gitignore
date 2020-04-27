@@ -9,6 +9,7 @@
 __pycache__
 .mypy_cache
 .coverage
+/htmlcov/
 /dist/
 /test/dist/
 /*.egg-info

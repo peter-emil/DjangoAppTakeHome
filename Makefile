@@ -25,7 +25,9 @@ vulture:
 
 servertests:
 	@rm project/db.sqlite3 | echo no old test db
-	@poetry run python manage.py test --settings project.settings.testing
+	@poetry run coverage run --source=. manage.py test --settings project.settings.testing
+	@poetry run coverage report
+	@poetry run coverage html
 
 test: pylint flake8 mypy servertests
 	@echo All tests successful
