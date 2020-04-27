@@ -56,7 +56,7 @@ class DocumentListCreate(generics.ListCreateAPIView):
         return super().create(request, *args, **kwargs)  # pylint:disable=no-member
 
     @swagger_auto_schema(
-        operation_summary="Get Document by name"
+        operation_summary="Get All Documents"
     )
     def get(self, request, *args, **kwargs):
         return super(DocumentListCreate, self).get(request, *args, **kwargs)
